@@ -239,7 +239,7 @@ public:
             throw invalid_argument("Dimensionalities do not match!");
 
         auto result_val = visit([](const auto& a, const auto& b) -> variant<Var, Vector<Var>, Tensor<Var>> {
-            return a + b;
+            return (a.trans?mtl::matr::trans(a.Val):a) + (b.trans?mtl::matr::trans(b.Val):b);
         }, Val, other.Val);
 
         pair<int, int> res_shape;
@@ -268,7 +268,7 @@ public:
         }
 
         auto result_val = std::visit([](const auto& a, const auto& b) -> variant<Var, Vector<Var>, Tensor<Var>> {
-            return a * b;
+            return (a.trans?mtl::matr::trans(a.Val):a) * (b.trans?mtl::matr::trans(b.Val):b);
         }, Val, other.Val);
 
         pair<int, int> res_shape;
